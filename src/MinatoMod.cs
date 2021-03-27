@@ -38,9 +38,9 @@ namespace MinatoMod
             {
                 var random = new System.Random();
 
-                Func<List<PlayerControl>, PlayerControl> GetRandomFromList = x => x[random.Next(x.Count)];
+                Func<List<PlayerControl>, PlayerControl> getRandomFromList = x => x[random.Next(x.Count)];
 
-                var minato = GetRandomFromList(infected.Select(x => x.Object).ToList());                
+                var minato = getRandomFromList(infected.Select(x => x.Object).ToList());                
                 Utils.MinatoPlayer = minato;                
                 Minato.SetMinatoButtons();
 
