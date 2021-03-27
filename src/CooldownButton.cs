@@ -57,7 +57,7 @@ namespace MinatoMod
 
         private bool HasTarget()
         {            
-            return Utils.FindClosestTarget(PlayerControl.LocalPlayer) != null || !_needsTarget;
+            return PlayerControl.LocalPlayer.FindClosestTarget() != null || !_needsTarget;
         }
 
         public  static void HudUpdate()
