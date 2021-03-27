@@ -15,14 +15,29 @@ namespace MinatoMod
 
         public static Dictionary<byte, Vector3> DeadBodyLocations = new Dictionary<byte, Vector3>();
 
-        public static void Reset()
+        // Reset after game ends.
+        [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.NextGame))]
+        public static class GameEnded
         {
-            MinatoPlayer = null;
-            MinatoTarget = null;
-            SealButton = null;
-            TeleportButton = null;
-            DeadBodyLocations.Clear();
-        }        
+            public static void Postfix(EndGameManager __instance)
+            {
+                MinatoPlayer = null;
+                MinatoTarget = null;
+                SealButton = null;
+                TeleportButton = null;
+                DeadBodyLocations.Clear();
+            }
+        }
+
+        // Save location of the dead body when a player dies.
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
+        public static class SaveDeadBodies
+        {
+            public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+            {
+                DeadBodyLocations[target.PlayerId] = target.transform.position;
+            }
+        }
 
         public static List<PlayerControl> GetCrewmates()
         {

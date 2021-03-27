@@ -29,41 +29,6 @@ namespace MinatoMod
             RegisterCustomRpcAttribute.Register(this);
             LoadAssetBundle();
             Harmony.PatchAll();
-        }        
-
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetInfected))]
-        public static class SetRandomMinato
-        {
-            public static void Postfix([HarmonyArgument(0)] Il2CppReferenceArray<PlayerInfo> infected)
-            {
-                var random = new System.Random();
-
-                Func<List<PlayerControl>, PlayerControl> getRandomFromList = x => x[random.Next(x.Count)];
-
-                var minato = getRandomFromList(infected.Select(x => x.Object).ToList());                
-                Utils.MinatoPlayer = minato;                
-                Minato.SetMinatoButtons();
-
-                CustomRpc.HandleCustomRpc(minato.PlayerId, CustomRpc.CustomRpcType.SetMinato);
-            }
-        }
-
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
-        public static class SaveDeadBodies
-        {
-            public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-            {
-                Utils.DeadBodyLocations[target.PlayerId] = target.transform.position;
-            }
-        }
-
-        [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.NextGame))]
-        public static class GameEnded
-        {
-            public static void Postfix(EndGameManager __instance)
-            {
-                Utils.Reset();
-            }
         }
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]

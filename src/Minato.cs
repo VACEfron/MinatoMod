@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using Reactor.Extensions;
+using UnhollowerBaseLib;
 using UnityEngine;
+using static GameData;
 
 namespace MinatoMod
 {
@@ -15,7 +19,25 @@ namespace MinatoMod
         public static float TeleportCooldown = 22.5f;
 
         public static AudioClip TeleportSfx;
-        public static AudioClip SealSfx;        
+        public static AudioClip SealSfx;
+
+        // Make a random impostor Minato.
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetInfected))]
+        public static class SetRandomMinato
+        {
+            public static void Postfix([HarmonyArgument(0)] Il2CppReferenceArray<PlayerInfo> infected)
+            {
+                var random = new System.Random();
+
+                Func<List<PlayerControl>, PlayerControl> getRandomFromList = x => x[random.Next(x.Count)];
+
+                var minato = getRandomFromList(infected.Select(x => x.Object).ToList());
+                Utils.MinatoPlayer = minato;
+                SetMinatoButtons();
+
+                CustomRpc.HandleCustomRpc(minato.PlayerId, CustomRpc.CustomRpcType.SetMinato);
+            }
+        }
 
         // Change intro sequence for Minato.
         [HarmonyPatch(typeof(IntroCutscene.CoBegin__d), nameof(IntroCutscene.CoBegin__d.MoveNext))]
