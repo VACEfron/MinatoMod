@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 3432763897
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a31095b641691f909355809bdfbd5132
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1f9bc39407710c5ec1d1710ab7f0b16e
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/SealButton.prefab
+- Assets/TeleportButton.prefab
+- Assets/sfx_teleport.mp3
+- Assets/sfx_seal.mp3
+Dependencies: []
