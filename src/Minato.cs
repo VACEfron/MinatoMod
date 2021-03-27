@@ -87,7 +87,7 @@ namespace MinatoMod
             SealSfx = MinatoMod.AssetsBundle.LoadAsset<AudioClip>("sfx_seal");
 
             SealButton = new CooldownButton(
-                onClick: () => SetMinatoTarget(Utils.FindClosestTarget(PlayerControl.LocalPlayer)),
+                onClick: () => SetMinatoTarget(PlayerControl.LocalPlayer.FindClosestTarget()),
                 cooldown: SealCooldown,
                 firstCooldown: 10,
                 needsTarget: true,
