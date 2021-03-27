@@ -19,22 +19,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Assets\**" />
-    <EmbeddedResource Remove="Assets\**" />
-    <None Remove="Assets\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="src\Assets\bundle" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Deobfuscate Include="$(AmongUs)\BepInEx\plugins\Reactor-$(GameVersion).dll" />
     <EmbeddedResource Include="src\Assets\bundle">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <PackageReference Include="HarmonyX" Version="2.4.0" />
-
     <PackageReference Include="Reactor.OxygenFilter.MSBuild" Version="0.2.9" />
   </ItemGroup>
 
