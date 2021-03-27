@@ -11,8 +11,8 @@ namespace MinatoMod
         public static CooldownButton TeleportButton;
         public static Vector2 ButtonsPosition = new Vector2(3.22f, -1.1f);
 
-        public static float SealCooldown = 5f;
-        public static float TeleportCooldown = 7f;
+        public static float SealCooldown = 15f;
+        public static float TeleportCooldown = 22.5f;
 
         public static AudioClip TeleportSfx;
         public static AudioClip SealSfx;        
@@ -52,7 +52,7 @@ namespace MinatoMod
 
                 var task = new GameObject("MinatoTask").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(__instance.transform, false);
-                task.Text = "[FFD642FF]Use your seal to teleport and kill crewmates[]";
+                task.Text = "[FFD642FF]Use your seal to teleport and kill crewmates\nFake tasks:[]";
                 __instance.myTasks[0] = task;
             }
         }
@@ -123,7 +123,7 @@ namespace MinatoMod
 
         public static void TeleportToTarget(PlayerControl target)
         {
-            SoundManager.Instance.PlaySound(TeleportSfx, false, 1f);
+            SoundManager.Instance.PlaySound(TeleportSfx, false, 1.2f);
 
             Utils.MinatoPlayer.transform.position = Utils.DeadBodyLocations.TryGetValue(target.PlayerId, out Vector3 position) ? position : target.transform.position;
             SetMinatoTarget(null);
