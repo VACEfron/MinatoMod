@@ -18,7 +18,7 @@ A random impostor will be assigned the Minato role. They are able to tag a crewm
 1) Install BepInEx. Guide [here](https://docs.reactor.gg/docs/basic/install_bepinex).
 2) Install Reactor. Guide [here](https://docs.reactor.gg/docs/basic/install_reactor).
 3) Download MinatoMod using the downloads table above.
-4) Move the downloaded `.dll` to `YourAmongUs/BepInEx/plugins`
+4) Move the downloaded `.dll` to `YourAmongUs/BepInEx/plugins`.
 5) Launch Among Us!
 
 # Screenshots
