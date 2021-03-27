@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.0.0</Version>
+    <Mappings>NuclearPowered/Mappings:0.2.0</Mappings>
+
+    <Description>Minato from Naruto in Among Us!</Description>
+    <Authors>VAC Efron</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GamePlatform)' == 'Steam'">
+    <GameVersion>2021.3.5s</GameVersion>
+    <DefineConstants>$(DefineConstants);STEAM</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GamePlatform)' == 'Itch'">
+    <GameVersion>2021.3.5i</GameVersion>
+    <DefineConstants>$(DefineConstants);ITCH</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Assets\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <None Remove="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="src\Assets\bundle" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Deobfuscate Include="$(AmongUs)\BepInEx\plugins\Reactor-$(GameVersion).dll" />
+    <EmbeddedResource Include="src\Assets\bundle">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <PackageReference Include="HarmonyX" Version="2.4.0" />
+
+    <PackageReference Include="Reactor.OxygenFilter.MSBuild" Version="0.2.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Essentials">
+      <HintPath>$(AmongUs)\BepInEx\plugins\Essentials-$(GameVersion).dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="Copy" AfterTargets="Reobfuscate">
+    <Copy SourceFiles="$(OutputPath)reobfuscated/$(AssemblyName)-$(GameVersion).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
+  </Target>
+</Project>
