@@ -14,6 +14,7 @@ namespace MinatoMod
         public KillButtonManager KillButtonManager;
         public Action OnClick;
         public HudManager HudManager;
+        public Sprite Sprite;
         public float MaxTimer = 0f;
         public float Timer = 0f;
 
@@ -23,16 +24,15 @@ namespace MinatoMod
         private readonly Dictionary<string, Texture2D> _cache = new Dictionary<string, Texture2D>();        
         private Vector2 _positionOffset = Vector2.zero;
 
-        private Sprite _sprite;
         private bool _canUse;
 
-        public CooldownButton(Action onClick, float cooldown, float firstCooldown, bool needsTarget, byte[] image, Vector2 positionOffset, Func<bool> useTester, HudManager hudManager)
+        public CooldownButton(Action onClick, float cooldown, float firstCooldown, bool needsTarget, Sprite sprite, Vector2 positionOffset, Func<bool> useTester, HudManager hudManager)
         {
-            SetVars(onClick, cooldown, firstCooldown, needsTarget, image, positionOffset, useTester, hudManager);
+            SetVars(onClick, cooldown, firstCooldown, needsTarget, sprite, positionOffset, useTester, hudManager);
             Update();
         }
 
-        private void SetVars(Action onClick, float cooldown, float firstCooldown, bool needsTarget, byte[] image, Vector2 positionOffset, Func<bool> useTester, HudManager hudManager)
+        private void SetVars(Action onClick, float cooldown, float firstCooldown, bool needsTarget, Sprite sprite, Vector2 positionOffset, Func<bool> useTester, HudManager hudManager)
         {
             Buttons.Add(this);
             HudManager = hudManager;
@@ -42,7 +42,7 @@ namespace MinatoMod
             MaxTimer = cooldown;
             Timer = firstCooldown;
             _needsTarget = needsTarget;
-            SetImage(image);
+            Sprite = sprite;
             KillButtonManager = UnityEngine.Object.Instantiate(HudManager.KillButton, HudManager.transform);
             Update();
         }
@@ -85,7 +85,7 @@ namespace MinatoMod
                     OnClick();
                 }
             }
-            KillButtonManager.renderer.sprite = _sprite;
+            KillButtonManager.renderer.sprite = Sprite;
             if (Timer < 0f)
             {
                 if (_enabled && HasTarget() && PlayerControl.LocalPlayer.CanMove)
@@ -107,42 +107,6 @@ namespace MinatoMod
                 KillButtonManager.renderer.material.SetFloat("_Desat", 0f);
                 KillButtonManager.SetCoolDown(Timer, MaxTimer);
             }
-        }
-
-        private static string GetHashSHA1(byte[] data)
-        {
-            using var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
-            return string.Concat(sha1.ComputeHash(data).Join(x => x.ToString("X2")));
-        }
-
-        private static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
-        {
-            Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
-            Color[] rpixels = result.GetPixels(0);
-            float incX = (1.0f / targetWidth);
-            float incY = (1.0f / targetHeight);
-            for (int px = 0; px < rpixels.Length; px++)
-            {
-                rpixels[px] = source.GetPixelBilinear(incX * ((float)px % targetWidth), incY * ((float)Mathf.Floor(px / targetWidth)));
-            }
-            result.SetPixels(rpixels, 0);
-            result.Apply();
-            return result;
-        }
-
-        private void SetImage(byte[] value)
-        {
-            string sha = GetHashSHA1(value);
-            if (_cache.ContainsKey(sha))
-            {
-                _sprite = GUIExtensions.CreateSprite(_cache[sha]);
-                return;
-            }
-            Texture2D tex = GUIExtensions.CreateEmptyTexture();
-            ImageConversion.LoadImage(tex, value, false);
-            tex = ScaleTexture(tex, 125, 125);
-            _cache[sha] = tex;
-            _sprite = GUIExtensions.CreateSprite(tex);
         }
     }
 
