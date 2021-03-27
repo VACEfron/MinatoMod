@@ -78,7 +78,7 @@ namespace MinatoMod
             button.OnClick.AddListener((UnityEngine.Events.UnityAction)listener);
             void listener()
             {
-                if (Timer < 0f && _canUse && _enabled && HasTarget())
+                if (Timer < 0f && _canUse && _enabled && HasTarget() && PlayerControl.LocalPlayer.CanMove)
                 {
                     KillButtonManager.renderer.color = new Color(1f, 1f, 1f, 0.3f);
                     Timer = MaxTimer;
@@ -88,7 +88,7 @@ namespace MinatoMod
             KillButtonManager.renderer.sprite = _sprite;
             if (Timer < 0f)
             {
-                if (_enabled && HasTarget())
+                if (_enabled && HasTarget() && PlayerControl.LocalPlayer.CanMove)
                     KillButtonManager.renderer.color = new Color(1f, 1f, 1f, 1f);
                 else
                     KillButtonManager.renderer.color = new Color(1f, 1f, 1f, .3f);

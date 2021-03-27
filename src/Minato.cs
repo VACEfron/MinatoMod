@@ -70,6 +70,7 @@ namespace MinatoMod
             }
         }
 
+        // Reset target & cooldown after meetings.
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Close))]
         public static class MeetingEnd
         {
@@ -123,6 +124,9 @@ namespace MinatoMod
 
         public static void TeleportToTarget(PlayerControl target)
         {
+            if (!PlayerControl.LocalPlayer.CanMove)
+                return;
+
             SoundManager.Instance.PlaySound(TeleportSfx, false, 1.2f);
 
             Utils.MinatoPlayer.transform.position = Utils.DeadBodyLocations.TryGetValue(target.PlayerId, out Vector3 position) ? position : target.transform.position;
