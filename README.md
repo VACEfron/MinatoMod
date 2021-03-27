@@ -8,7 +8,7 @@
 # Overview
 This mod was (obviously) inspired by Minato Namikaze from the Naruto series. Minato is known for his Flying Thunder God technique, allowing him to place seals and teleport to them at will.
 
-A random impostor will be assigned the Minato role. They are able to tag a crewmate with their seal and teleport to them from anywhere on the map. Be careful, you might teleport to a group or dead body!
+A random impostor will be assigned the Minato role. They are able to tag crewmates with their seal and teleport to them from anywhere on the map. Be careful, you might teleport into a group or a dead body!
 
 # Installation
 | Version | Link |
