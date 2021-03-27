@@ -1,5 +1,5 @@
 # MinatoMod
-👾 This role bring Minato Namikaze from the Naruto series to Among Us!
+👾 This role brings Minato Namikaze from the Naruto series to Among Us!
 
 * [Overview](#Overview)
 * [Installation](#Installation)
