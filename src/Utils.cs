@@ -43,32 +43,5 @@ namespace MinatoMod
         {
             return PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.nameText.Text == name);
         }
-
-        public static PlayerControl FindClosestTarget(PlayerControl player)
-        {
-            PlayerControl result = null;
-            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
-            Vector2 truePosition = player.GetTruePosition();
-            List<GameData.PlayerInfo> allPlayers = GameData.Instance.AllPlayers.ToArray().ToList();
-            for (int i = 0; i < allPlayers.Count; i++)
-            {
-                GameData.PlayerInfo playerInfo = allPlayers[i];
-                if (!playerInfo.Disconnected && playerInfo.PlayerId != player.PlayerId && !playerInfo.IsDead)
-                {
-                    PlayerControl target = playerInfo.Object;
-                    if (target)
-                    {
-                        Vector2 vector = target.GetTruePosition() - truePosition;
-                        float magnitude = vector.magnitude;
-                        if (magnitude <= num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector.normalized, magnitude, Constants.ShipAndObjectsMask))
-                        {
-                            result = target;
-                            num = magnitude;
-                        }
-                    }
-                }
-            }
-            return result;
-        }
     }    
 }
