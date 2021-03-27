@@ -19,7 +19,7 @@ namespace MinatoMod
     [BepInDependency(ReactorPlugin.Id)]
     public class MinatoMod : BasePlugin
     {
-        public const string Id = "vac.efron.mod";
+        public const string Id = "minato.role.mod";
 
         public Harmony Harmony { get; } = new Harmony(Id);
 
@@ -41,7 +41,7 @@ namespace MinatoMod
                 var random = new System.Random();
                 var minatoSetting = CustomOptions.GetMinatoSetting();
 
-                if (minatoSetting == CustomOptions.MinatoSetting.Always || (minatoSetting == CustomOptions.MinatoSetting.Maybe && random.Next(2) == 0))
+                if (/*minatoSetting == CustomOptions.MinatoSetting.Always || (minatoSetting == CustomOptions.MinatoSetting.Maybe && random.Next(2) == 0)*/ true)
                 {
                     Func<List<PlayerControl>, PlayerControl> GetRandomFromList = x => x[random.Next(x.Count)];
 
@@ -93,14 +93,18 @@ namespace MinatoMod
 
         private void LoadAssets()
         {
-            byte[] bundleRead = Assembly.GetCallingAssembly().GetManifestResourceStream("VACMod.Assets.bundle").ReadFully();
+            byte[] bundleRead = Assembly.GetCallingAssembly().GetManifestResourceStream("MinatoMod.src.Assets.bundle").ReadFully();
             AssetsBundle = AssetBundle.LoadFromMemory(bundleRead);
         }
 
         private void LoadCustomOptions()
-        {
+        {     
             CustomOption.ShamelessPlug = false;
-            CustomOptions.MinatoEnabledOption = CustomOption.AddString("Minato", "Minato", "Always", "Maybe", "Never");
+            // Will add this soon
+            /*           
+            var option = CustomOption.AddString("Minato", "Minato", "Always", "Maybe", "Never");            
+            CustomOptions.MinatoEnabledOption = option;
+            */
         }
     }
 }
