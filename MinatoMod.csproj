@@ -38,12 +38,6 @@
     <PackageReference Include="Reactor.OxygenFilter.MSBuild" Version="0.2.9" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Essentials">
-      <HintPath>$(AmongUs)\BepInEx\plugins\Essentials-$(GameVersion).dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Target Name="Copy" AfterTargets="Reobfuscate">
     <Copy SourceFiles="$(OutputPath)reobfuscated/$(AssemblyName)-$(GameVersion).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
   </Target>
