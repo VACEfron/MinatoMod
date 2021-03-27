@@ -111,10 +111,8 @@ namespace MinatoMod
 
         private static string GetHashSHA1(byte[] data)
         {
-            using (var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider())
-            {
-                return string.Concat(sha1.ComputeHash(data).Join(x => x.ToString("X2")));
-            }
+            using var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            return string.Concat(sha1.ComputeHash(data).Join(x => x.ToString("X2")));
         }
 
         private static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
