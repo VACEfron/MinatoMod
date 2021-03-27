@@ -19,12 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Deobfuscate Include="$(AmongUs)\BepInEx\plugins\Reactor-$(GameVersion).dll" />
-    <EmbeddedResource Include="src\Assets\bundle">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Deobfuscate Include="$(AmongUs)\BepInEx\plugins\Reactor-$(GameVersion).dll" />    
     <PackageReference Include="HarmonyX" Version="2.4.0" />
     <PackageReference Include="Reactor.OxygenFilter.MSBuild" Version="0.2.9" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="src\Assets\bundle" />
   </ItemGroup>
 
   <Target Name="Copy" AfterTargets="Reobfuscate">
