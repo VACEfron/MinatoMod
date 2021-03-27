@@ -13,6 +13,7 @@ namespace MinatoMod
     {
         public static CooldownButton SealButton;
         public static CooldownButton TeleportButton;
+
         public static Vector2 ButtonsPosition = new Vector2(3.22f, -1.1f);
 
         public static float SealCooldown = 15f;
@@ -106,15 +107,15 @@ namespace MinatoMod
 
         public static void SetMinatoButtons()
         {
-            TeleportSfx = MinatoMod.AssetsBundle.LoadAsset<AudioClip>("sfx_teleport");
-            SealSfx = MinatoMod.AssetsBundle.LoadAsset<AudioClip>("sfx_seal");
+            TeleportSfx = AssetBundleHandler.LoadAssetFromBundle("sfx_teleport").Cast<AudioClip>();
+            SealSfx = AssetBundleHandler.LoadAssetFromBundle("sfx_seal").Cast<AudioClip>();
 
             SealButton = new CooldownButton(
                 onClick: () => SetMinatoTarget(PlayerControl.LocalPlayer.FindClosestTarget()),
                 cooldown: SealCooldown,
                 firstCooldown: 10,
                 needsTarget: true,
-                image: Properties.Resources.SealButton,
+                sprite: AssetBundleHandler.LoadAssetFromBundle("SealButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
                 positionOffset: ButtonsPosition,
                 useTester: () => !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.IsMinato() && Utils.MinatoTarget == null,
                 hudManager: HudManager.Instance
@@ -136,7 +137,7 @@ namespace MinatoMod
                     cooldown: TeleportCooldown,
                     firstCooldown: TeleportCooldown,
                     needsTarget: false,
-                    image: Properties.Resources.TeleportButton,
+                    sprite: AssetBundleHandler.LoadAssetFromBundle("TeleportButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
                     positionOffset: ButtonsPosition,
                     useTester: () => !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.IsMinato() && Utils.MinatoTarget != null,
                     hudManager: HudManager.Instance
@@ -149,7 +150,7 @@ namespace MinatoMod
             if (!PlayerControl.LocalPlayer.CanMove)
                 return;
 
-            SoundManager.Instance.PlaySound(TeleportSfx, false, 1.2f);
+            SoundManager.Instance.PlaySound(TeleportSfx, false, 1.5f);
 
             Utils.MinatoPlayer.transform.position = Utils.DeadBodyLocations.TryGetValue(target.PlayerId, out Vector3 position) ? position : target.transform.position;
             SetMinatoTarget(null);
