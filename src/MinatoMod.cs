@@ -20,14 +20,12 @@ namespace MinatoMod
     {
         public const string Id = "minato.role.mod";
 
-        public Harmony Harmony { get; } = new Harmony(Id);
-
-        public static AssetBundle AssetsBundle;
+        public Harmony Harmony { get; } = new Harmony(Id);        
 
         public override void Load()
         {
             RegisterCustomRpcAttribute.Register(this);
-            LoadAssetBundle();
+            AssetBundleHandler.LoadAssetBundle();
             Harmony.PatchAll();
         }
 
@@ -48,12 +46,6 @@ namespace MinatoMod
             {
                 __instance.text.Text += "\n\n\nMinato by:\n[FF69B4FF]VAC Efron[]";
             }
-        }
-
-        private void LoadAssetBundle()
-        {
-            byte[] bundleRead = Assembly.GetCallingAssembly().GetManifestResourceStream("MinatoMod.src.Assets.bundle").ReadFully();
-            AssetsBundle = AssetBundle.LoadFromMemory(bundleRead);
         }
     }
 }
