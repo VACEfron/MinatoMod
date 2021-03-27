@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.IL2CPP;
-using Essentials.Options;
 using static GameData;
 using HarmonyLib;
 using Reactor;
@@ -28,8 +27,7 @@ namespace MinatoMod
         public override void Load()
         {
             RegisterCustomRpcAttribute.Register(this);
-            LoadAssets();
-            LoadCustomOptions();
+            LoadAssetBundle();
             Harmony.PatchAll();
         }        
 
@@ -39,18 +37,14 @@ namespace MinatoMod
             public static void Postfix([HarmonyArgument(0)] Il2CppReferenceArray<PlayerInfo> infected)
             {
                 var random = new System.Random();
-                var minatoSetting = CustomOptions.GetMinatoSetting();
 
-                if (/*minatoSetting == CustomOptions.MinatoSetting.Always || (minatoSetting == CustomOptions.MinatoSetting.Maybe && random.Next(2) == 0)*/ true)
-                {
-                    Func<List<PlayerControl>, PlayerControl> GetRandomFromList = x => x[random.Next(x.Count)];
+                Func<List<PlayerControl>, PlayerControl> GetRandomFromList = x => x[random.Next(x.Count)];
 
-                    var minato = GetRandomFromList(infected.Select(x => x.Object).ToList());                
-                    Utils.MinatoPlayer = minato;                
-                    Minato.SetMinatoButtons();
+                var minato = GetRandomFromList(infected.Select(x => x.Object).ToList());                
+                Utils.MinatoPlayer = minato;                
+                Minato.SetMinatoButtons();
 
-                    CustomRpc.HandleCustomRpc(minato.PlayerId, CustomRpc.CustomRpcType.SetMinato);
-                }
+                CustomRpc.HandleCustomRpc(minato.PlayerId, CustomRpc.CustomRpcType.SetMinato);
             }
         }
 
@@ -91,20 +85,10 @@ namespace MinatoMod
             }
         }
 
-        private void LoadAssets()
+        private void LoadAssetBundle()
         {
             byte[] bundleRead = Assembly.GetCallingAssembly().GetManifestResourceStream("MinatoMod.src.Assets.bundle").ReadFully();
             AssetsBundle = AssetBundle.LoadFromMemory(bundleRead);
-        }
-
-        private void LoadCustomOptions()
-        {     
-            CustomOption.ShamelessPlug = false;
-            // Will add this soon
-            /*           
-            var option = CustomOption.AddString("Minato", "Minato", "Always", "Maybe", "Never");            
-            CustomOptions.MinatoEnabledOption = option;
-            */
         }
     }
 }
