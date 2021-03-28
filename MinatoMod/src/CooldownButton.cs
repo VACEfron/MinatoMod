@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
-using Reactor.Extensions;
 using UnityEngine;
 
 namespace MinatoMod
@@ -20,8 +19,7 @@ namespace MinatoMod
 
         private bool _needsTarget = true;
         private readonly bool _enabled = true;
-        private Func<bool> _useTester;
-        private readonly Dictionary<string, Texture2D> _cache = new Dictionary<string, Texture2D>();        
+        private Func<bool> _useTester;    
         private Vector2 _positionOffset = Vector2.zero;
 
         private bool _canUse;
