@@ -13,6 +13,7 @@ A random impostor will be assigned the Minato role. They are able to tag crewmat
 # Installation
 | Version | Link |
 |-|-|
+|  1.0.0-beta.1 | [Download](https://github.com/VACEfron/MinatoMod/releases/download/v1.0.0-beta.1/MinatoMod-2021.3.5s.dll) |
 |  1.0.0-beta.0 | [Download](https://github.com/VACEfron/MinatoMod/releases/download/v1.0.0-beta.0/MinatoMod-2021.3.5s.dll) |
 
 1) Install BepInEx. Guide [here](https://docs.reactor.gg/docs/basic/install_bepinex).
