@@ -4,12 +4,8 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.IL2CPP;
-using static GameData;
 using HarmonyLib;
 using Reactor;
-using Reactor.Extensions;
-using UnhollowerBaseLib;
-using UnityEngine;
 
 namespace MinatoMod
 {
@@ -25,7 +21,7 @@ namespace MinatoMod
         public override void Load()
         {
             RegisterCustomRpcAttribute.Register(this);
-            AssetBundleHandler.LoadAssetBundle();
+            Assets.LoadAssetBundle();
             Harmony.PatchAll();
         }
 

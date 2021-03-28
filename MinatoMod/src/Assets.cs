@@ -4,19 +4,20 @@ using UnityEngine;
 
 namespace MinatoMod
 {
-    public static class AssetBundleHandler
+    public class Assets
     {
-        private static AssetBundle AssetsBundle;
+        private static AssetBundle AssetBundle;
 
         public static void LoadAssetBundle()
         {
             byte[] bundleRead = Assembly.GetCallingAssembly().GetManifestResourceStream("MinatoMod.src.Assets.bundle").ReadFully();
-            AssetsBundle = AssetBundle.LoadFromMemory(bundleRead);
+            AssetBundle = AssetBundle.LoadFromMemory(bundleRead);
         }
 
-        public static Object LoadAssetFromBundle(string name)
+        public static Object LoadAsset(string name)
         {
-            return AssetsBundle.LoadAsset(name);
+            return AssetBundle.LoadAsset(name);
         }
     }
 }
+

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Reactor.Extensions;
 using UnhollowerBaseLib;
 using UnityEngine;
 using static GameData;
@@ -14,13 +12,13 @@ namespace MinatoMod
         public static CooldownButton SealButton;
         public static CooldownButton TeleportButton;
 
+        private static AudioClip SealSfx;
+        private static AudioClip TeleportSfx;
+
         public static Vector2 ButtonsPosition = new Vector2(3.22f, -1.1f);
 
         public static float SealCooldown = 15f;
-        public static float TeleportCooldown = 22.5f;
-
-        public static AudioClip TeleportSfx;
-        public static AudioClip SealSfx;
+        public static float TeleportCooldown = 22.5f;        
 
         // Make a random impostor Minato.
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetInfected))]
@@ -30,9 +28,11 @@ namespace MinatoMod
             {
                 var random = new System.Random();
 
-                Func<List<PlayerControl>, PlayerControl> getRandomFromList = x => x[random.Next(x.Count)];
+                PlayerControl GetRandomFromList(List<PlayerControl> x)
+                    => x[random.Next(x.Count)];
 
-                var minato = getRandomFromList(infected.Select(x => x.Object).ToList());
+                var minato = GetRandomFromList(infected.Select(x => x.Object).ToList());
+
                 Utils.MinatoPlayer = minato;
                 SetMinatoButtons();
 
@@ -107,15 +107,15 @@ namespace MinatoMod
 
         public static void SetMinatoButtons()
         {
-            TeleportSfx = AssetBundleHandler.LoadAssetFromBundle("sfx_teleport").Cast<AudioClip>();
-            SealSfx = AssetBundleHandler.LoadAssetFromBundle("sfx_seal").Cast<AudioClip>();
+            TeleportSfx = Assets.LoadAsset("sfx_teleport").Cast<AudioClip>();
+            SealSfx = Assets.LoadAsset("sfx_seal").Cast<AudioClip>();
 
             SealButton = new CooldownButton(
                 onClick: () => SetMinatoTarget(PlayerControl.LocalPlayer.FindClosestTarget()),
                 cooldown: SealCooldown,
                 firstCooldown: 10,
                 needsTarget: true,
-                sprite: AssetBundleHandler.LoadAssetFromBundle("SealButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
+                sprite: Assets.LoadAsset("SealButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
                 positionOffset: ButtonsPosition,
                 useTester: () => !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.IsMinato() && Utils.MinatoTarget == null,
                 hudManager: HudManager.Instance
@@ -137,7 +137,7 @@ namespace MinatoMod
                     cooldown: TeleportCooldown,
                     firstCooldown: TeleportCooldown,
                     needsTarget: false,
-                    sprite: AssetBundleHandler.LoadAssetFromBundle("TeleportButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
+                    sprite: Assets.LoadAsset("TeleportButton").Cast<GameObject>().GetComponent<SpriteRenderer>().sprite,
                     positionOffset: ButtonsPosition,
                     useTester: () => !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.IsMinato() && Utils.MinatoTarget != null,
                     hudManager: HudManager.Instance
