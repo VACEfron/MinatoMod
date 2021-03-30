@@ -58,7 +58,7 @@ namespace MinatoMod
             return PlayerControl.LocalPlayer.FindClosestTarget() != null || !_needsTarget;
         }
 
-        public  static void HudUpdate()
+        public static void HudUpdate()
         {
             Buttons.RemoveAll(item => item.KillButtonManager == null);
             for (int i = 0; i < Buttons.Count; i++)
